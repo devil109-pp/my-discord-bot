@@ -7,12 +7,17 @@ async function main() {
 
   const servers = await fetchServers();
 
+  if (!servers || servers.length === 0) {
+    console.log('❌ ماكو سيرفرات راجعة من fetchServers()');
+    return;
+  }
+
   for (const server of servers) {
-    // مثال: فلترة حسب generation_rate
-    if (server.generation_rate >= 1000000) {
-      await saveServerData(server);
-      await sendNotification(`🔥 سيرفر قوي: ${server.jobid} - معدل: ${server.generation_rate}`);
-    }
+    // بدون أي فلترة على generation_rate
+    console.log(`📡 سيرفر: ${server.jobid} | لاعبين: ${server.playing}/${server.maxPlayers}`);
+
+    await saveServerData(server);
+    await sendNotification(`📡 سيرفر: ${server.jobid} | لاعبين: ${server.playing}/${server.maxPlayers}`);
   }
 }
 
